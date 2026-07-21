@@ -1,46 +1,112 @@
-# Ali Ghasemi — Portfolio
+# Ali Ghasemi — Portfolio Website
 
-Premium personal portfolio for **Ali Ghasemi**, Cybersecurity Analyst & Web Developer.
+A professional, single-page portfolio website for **Ali Ghasemi**, Frontend Developer & Founder of [NeuronSec](https://github.com/alighasemi889) and [CodeMaster](https://github.com/alighasemi889).
 
-Built with **React**, **Tailwind CSS**, and **Framer Motion**. Dark mode by default, mobile-first responsive, glassmorphism accents, and smooth scroll-triggered animations throughout.
+Built with React 18, TypeScript, Tailwind CSS, and Framer Motion. Dark theme with cyan/emerald accents, fully responsive, and ready to deploy on Vercel.
 
-## Sections
+## Features
 
-- **Hero** — introduction, headline, CTAs, social links
-- **About** — professional bio + stat highlights
-- **Skills** — categorized tech badges (no progress bars)
-- **Projects** — cards with image, tech stack, GitHub & Live Demo buttons
-- **Experience** — vertical timeline
-- **Education** — minimal academic cards
-- **Certificates** — certification cards
-- **Contact** — email, GitHub, LinkedIn, Telegram
-- **Footer** — copyright
+- **Hero Section** — Typing animation cycling through roles, animated status badge, social links, and smooth scroll indicator
+- **About Section** — Founder story, NeuronSec & CodeMaster venture cards, language skills with RTL support for Persian
+- **Skills Section** — Clean skill tags with icons (no percentages or bars — just the stack)
+- **Projects Section** — Three project cards with hover effects, status badges, and tech tags
+- **Timeline Section** — Vertical journey timeline with animated nodes
+- **Contact Section** — Contact info cards, visual-only contact form, and "Open to opportunities" badge
+- **Footer** — Social links, back-to-top, and copyright
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| React 18 | UI framework |
+| TypeScript | Type safety |
+| Tailwind CSS | Styling |
+| Framer Motion | Animations |
+| Lucide React | Icons |
+| Vite | Build tool |
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── Navbar.tsx       # Sticky nav with active section tracking
+│   ├── Hero.tsx         # Hero with typing animation
+│   ├── About.tsx       # Story, ventures, languages
+│   ├── Skills.tsx       # Skill tags
+│   ├── Projects.tsx     # Project cards
+│   ├── Timeline.tsx     # Journey timeline
+│   ├── Contact.tsx      # Contact form + info
+│   └── Footer.tsx      # Footer
+├── data.ts              # All content data
+├── hooks.ts             # useInView, useActiveSection hooks
+├── types.ts             # TypeScript interfaces
+├── App.tsx              # Root component
+├── main.tsx             # Entry point
+└── index.css            # Global styles + Tailwind
+```
 
 ## Getting Started
 
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
 ```bash
+# Clone the repository
+git clone https://github.com/alighasemi889/ali-ghasemi-portfolio.git
+
+# Navigate to the project
+cd ali-ghasemi-portfolio
+
+# Install dependencies
 npm install
+
+# Start the development server
 npm run dev
 ```
 
-Build for production:
+### Build for Production
 
 ```bash
 npm run build
 ```
 
-## Customize
+The build output will be in the `dist/` directory.
 
-All content lives in **`src/data/portfolio.ts`** — edit that single file to update your name, bio, skills, projects, experience, education, certificates, and contact links.
+## Deployment
 
-## Tech Stack
+This project is ready to deploy on **Vercel**:
 
-- React 18 + TypeScript
-- Vite 5
-- Tailwind CSS 3
-- Framer Motion 12
-- Lucide React (icons)
+1. Push the repository to GitHub
+2. Go to [vercel.com](https://vercel.com) and import the repository
+3. Vercel will auto-detect Vite — no configuration needed
+4. Click Deploy
+
+Alternatively, you can use the Vercel CLI:
+
+```bash
+npm i -g vercel
+vercel
+```
+
+## Customization
+
+All content is centralized in `src/data.ts`. Edit this file to update:
+
+- Personal information (name, role, bio, email, social links)
+- Skills
+- Projects
+- Timeline entries
+- Navigation links
 
 ## License
 
-MIT © Ali Ghasemi
+This project is open source and available under the MIT License.
+
+---
+
+Made with care by **Ali Ghasemi** — [GitHub](https://github.com/alighasemi889) | [Email](mailto:alihj4223@gmail.com)
