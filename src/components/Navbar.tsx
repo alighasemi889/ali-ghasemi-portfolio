@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Shield } from 'lucide-react';
-import { personal, navLinks } from '../data/portfolio';
+import { Menu, X } from 'lucide-react';
+import { navLinks, personal } from '@/data';
+import { useActiveSection } from '@/hooks';
 
-export function Navbar() {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const active = useActiveSection(navLinks.map((n) => n.href.slice(1)));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -14,89 +16,101 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleNav = (href: string) => {
-    setOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-zinc-950/70 backdrop-blur-xl border-b border-white/5'
-          : 'bg-transparent'
+          ? 'border-b border-white/5 bg-ink-950/80 backdrop-blur-xl'
+          : 'border-b border-transparent bg-transparent'
       }`}
     >
-      <nav className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
-        <button
-          onClick={() => handleNav('#hero')}
-          className="flex items-center gap-2 group"
-          aria-label="Home"
+      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
+        <a
+          href="#home"
+          className="group flex items-center gap-2.5 text-lg font-bold tracking-tight text-white"
         >
-          <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500/20 to-emerald-500/20 border border-white/10 flex items-center justify-center group-hover:border-sky-400/40 transition-colors">
-            <Shield size={15} className="text-sky-400" />
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-400/30 bg-cyan-400/10 font-mono text-sm text-cyan-400 transition-all group-hover:border-cyan-400/60 group-hover:bg-cyan-400/20">
+            AG
           </span>
-          <span className="font-semibold text-sm tracking-tight text-zinc-100">
-            {personal.name}
+          <span className="hidden sm:block">
+            {personal.name.split(' ')[0]}
+            <span className="text-cyan-400">.</span>
           </span>
-        </button>
+        </a>
 
-        <ul className="hidden md:flex items-center gap-1">
-          {navLinks.map(link => (
-            <li key={link.href}>
-              <button
-                onClick={() => handleNav(link.href)}
-                className="text-sm text-zinc-400 hover:text-zinc-100 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors"
-              >
-                {link.label}
-              </button>
-            </li>
-          ))}
+        <ul className="hidden items-center gap-1 md:flex">
+          {navLinks.map((link) => {
+            const id = link.href.slice(1);
+            const isActive = active === id;
+            return (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className={`relative rounded-md px-3.5 py-2 text-sm font-medium transition-colors ${
+                    isActive
+                      ? 'text-cyan-400'
+                      : 'text-slate-400 hover:text-slate-100'
+                  }`}
+                >
+                  {link.label}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-active"
+                      className="absolute inset-0 -z-10 rounded-md bg-cyan-400/10 ring-1 ring-cyan-400/20"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </a>
+              </li>
+            );
+          })}
         </ul>
 
         <a
-          href={`mailto:${personal.email}`}
-          className="hidden md:inline-flex items-center text-sm font-medium text-zinc-100 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg px-4 py-2 transition-colors"
+          href="#contact"
+          className="hidden rounded-lg bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-400 ring-1 ring-cyan-400/30 transition-all hover:bg-cyan-400/20 hover:ring-cyan-400/50 md:inline-block"
         >
           Get in touch
         </a>
 
         <button
-          onClick={() => setOpen(v => !v)}
-          className="md:hidden w-9 h-9 rounded-lg flex items-center justify-center text-zinc-300 hover:bg-white/5"
+          onClick={() => setOpen((v) => !v)}
+          className="rounded-md p-2 text-slate-300 transition-colors hover:text-white md:hidden"
           aria-label="Toggle menu"
         >
-          {open ? <X size={18} /> : <Menu size={18} />}
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="md:hidden overflow-hidden bg-zinc-950/95 backdrop-blur-xl border-b border-white/5"
+            className="overflow-hidden border-t border-white/5 bg-ink-900/95 backdrop-blur-xl md:hidden"
           >
-            <ul className="px-5 py-3 space-y-1">
-              {navLinks.map(link => (
+            <ul className="flex flex-col gap-1 px-5 py-4">
+              {navLinks.map((link) => (
                 <li key={link.href}>
-                  <button
-                    onClick={() => handleNav(link.href)}
-                    className="w-full text-left text-sm text-zinc-300 hover:text-zinc-100 px-3 py-2.5 rounded-lg hover:bg-white/5 transition-colors"
+                  <a
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className="block rounded-lg px-4 py-3 text-base font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
               <li>
                 <a
-                  href={`mailto:${personal.email}`}
-                  className="block text-sm font-medium text-zinc-100 bg-white/5 border border-white/10 rounded-lg px-3 py-2.5 mt-2 text-center"
+                  href="#contact"
+                  onClick={() => setOpen(false)}
+                  className="mt-2 block rounded-lg bg-cyan-400/10 px-4 py-3 text-center text-base font-semibold text-cyan-400 ring-1 ring-cyan-400/30"
                 >
                   Get in touch
                 </a>
